@@ -7,13 +7,13 @@ android {
     defaultConfig {
         applicationId "android.example.com.dictionaryproviderexample"
         minSdkVersion 10
-        targetSdkVersion 20
+        targetSdkVersion 19
         versionCode 1
         versionName "1.0"
     }
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
