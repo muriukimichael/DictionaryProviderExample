@@ -20,6 +20,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.UserDictionary;
 import android.provider.UserDictionary.Words;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.ListView;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -63,7 +64,6 @@ public class MainActivity extends ActionBarActivity {
                 LAYOUT_ITEMS_TO_FILL,
                 0);
 
-        // Attach the adapter to the ListView.
         dictListView.setAdapter(adapter);
     }
 }
