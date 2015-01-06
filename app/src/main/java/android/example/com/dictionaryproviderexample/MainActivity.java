@@ -20,6 +20,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.UserDictionary;
 import android.provider.UserDictionary.Words;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.ListView;
 
@@ -28,6 +29,11 @@ import android.widget.ListView;
  * to show an example of accessing the {@link Words} list via its' Content Provider.
  */
 public class MainActivity extends ActionBarActivity {
+
+    //for the SimpleCursorAdapter to match UserDictionary columns to layout items
+    private static final String[] COLUMNS_TO_BE_BOUND = new String[]{Words.WORD, Words.FREQUENCY};
+
+    private static final int[] LAYOUT_ITEMS_TO_FILL = new int[]{android.R.id.text1, android.R.id.text2};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,22 +49,15 @@ public class MainActivity extends ActionBarActivity {
         // Get a Cursor containing all of the rows in the Words table
         Cursor cursor = resolver.query(UserDictionary.Words.CONTENT_URI, null, null, null, null);
 
-        try {
-            int numWords = cursor.getCount();
+        // Set the Adapter to fill the standard two_line_list_item layout with data from the Cursor.
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+                android.R.layout.two_line_list_item,
+                cursor,
+                COLUMNS_TO_BE_BOUND,
+                LAYOUT_ITEMS_TO_FILL,
+                0);
 
-            // Iterates through all returned rows in the cursor.
-            while (cursor.moveToNext()) {
-                //get the data we need from the user dictionary using the column indexes and constants from
-                //words class
-                int id = cursor.getInt(cursor.getColumnIndex(Words._ID));
-                int freq = cursor.getInt(cursor.getColumnIndex(Words.FREQUENCY));
-                String word = cursor.getString(cursor.getColumnIndex(Words.WORD));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            //close the cursor
-            cursor.close();
-        }
+        // Don't forget to attach the adapter to the ListView
+        dictListView.setAdapter(adapter);
     }
 }
