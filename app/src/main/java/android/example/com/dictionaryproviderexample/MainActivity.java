@@ -21,7 +21,7 @@ import android.os.Bundle;
 import android.provider.UserDictionary;
 import android.provider.UserDictionary.Words;
 import android.support.v7.app.ActionBarActivity;
-import android.widget.TextView;
+import android.widget.ListView;
 
 /**
  * This is the central activity for the Provider Dictionary Example App. The purpose of this app is
@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         // Get the TextView which will be populated with the Dictionary ContentProvider data.
-        TextView dictTextView = (TextView) findViewById(R.id.dictionary_text_view);
+        ListView dictListView = (ListView) findViewById(R.id.dictionary_list_view);
 
         // Get the ContentResolver which will send a message to the ContentProvider
         ContentResolver resolver = getContentResolver();
@@ -45,7 +45,7 @@ public class MainActivity extends ActionBarActivity {
 
         try {
             int numWords = cursor.getCount();
-            dictTextView.append("The user Dictionary contains " + numWords + " words" + "\n");
+
             // Iterates through all returned rows in the cursor.
             while (cursor.moveToNext()) {
                 //get the data we need from the user dictionary using the column indexes and constants from
@@ -53,7 +53,6 @@ public class MainActivity extends ActionBarActivity {
                 int id = cursor.getInt(cursor.getColumnIndex(Words._ID));
                 int freq = cursor.getInt(cursor.getColumnIndex(Words.FREQUENCY));
                 String word = cursor.getString(cursor.getColumnIndex(Words.WORD));
-                dictTextView.append(id + " - " + freq + " - " + word + "\n");
             }
         } catch (Exception e) {
             e.printStackTrace();
